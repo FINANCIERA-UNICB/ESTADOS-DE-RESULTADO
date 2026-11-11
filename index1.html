@@ -308,16 +308,11 @@
           <h1 class="title">Estados <span class="hl">Financieros</span><br>de Enero a Octubre 2026</h1>
           <p class="lead">Desempeño financiero de sus 12 centros: ingresos, costos, gastos y EBITDA. Cifras en millones de pesos (M)</p>
         </div>
-        <div class="gauge-float reveal">
-          <svg id="gaugeEbitda" width="200" height="200" viewBox="0 0 220 220"></svg>
-          <div class="cap">Margen <b>EBITDA</b> de la Sede</div>
-        </div>
       </div>
     </div>
     <div class="kpis">
       <div class="kpi green"><div class="lab">Ingresos Netos Totales</div><div class="val"><span data-count="48005" data-prefix="$">$48.005</span></div><div class="sub">M · <b>95%</b> del plan <span class="pill" style="color:#a9760a;background:rgba(255,184,28,.18)">En seguimiento</span></div></div>
       <div class="kpi gold"><div class="lab">EBITDA</div><div class="val"><span data-count="15376" data-prefix="$">$15.376</span></div><div class="sub">M · <b>100%</b> del plan <span class="pill up">▲ 0,3 pts</span></div></div>
-      <div class="kpi cyan"><div class="lab">Margen <strong style="color:#17203c;font-weight:800">EBITDA</strong></div><div class="val"><span data-count="32.0" data-dec="1" data-suffix="%">32,0%</span></div><div class="sub">vs 30,5% del plan <span class="pill up">▲ 1,5 pts</span></div></div>
       <div class="kpi blue"><div class="lab">Costos + Gastos</div><div class="val"><span data-count="68" data-suffix="%">68%</span></div><div class="sub">de ingresos · ahorro del 32%</div></div>
     </div>
   </section>
@@ -327,7 +322,6 @@
     <p class="sec-sub">Indicadores clave de gestión · semáforo de desempeño</p>
     <div class="scorewrap reveal">
       <div class="score"><div class="sc-top"><span class="sdot green"></span><b>95%</b></div><div class="sc-lab">Cumplimiento de ingresos</div><div class="sbar"><i style="width:95%;background:linear-gradient(90deg,#34d399,#21b88a)"></i></div><div class="sc-note">Real $48.005 M vs plan $50.277 M</div></div>
-      <div class="score"><div class="sc-top"><span class="sdot green"></span><b>32,0%</b></div><div class="sc-lab">Margen EBITDA</div><div class="sbar"><i style="width:53%;background:linear-gradient(90deg,#34d399,#21b88a)"></i></div><div class="sc-note">Supera la meta de 30,5%</div></div>
       <div class="score"><div class="sc-top"><span class="sdot green"></span><b>100%</b></div><div class="sc-lab">EBITDA vs plan</div><div class="sbar"><i style="width:100%;background:linear-gradient(90deg,#34d399,#21b88a)"></i></div><div class="sc-note">$15.376 M ejecutados de $15.323 M</div></div>
       <div class="score"><div class="sc-top"><span class="sdot amber"></span><b>68%</b></div><div class="sc-lab">Costos + gastos / ingresos</div><div class="sbar"><i style="width:68%;background:linear-gradient(90deg,#ffb81c,#f5a623)"></i></div><div class="sc-note">Ahorro del 32% en la ejecución</div></div>
       <div class="score"><div class="sc-top"><span class="sdot amber"></span><b>10 / 12</b></div><div class="sc-lab">Centros con EBITDA positivo</div><div class="sbar"><i style="width:83%;background:linear-gradient(90deg,#ffb81c,#f5a623)"></i></div><div class="sc-note">Todos positivos salvo Fusagasugá y Chiquinquirá</div></div>
@@ -435,7 +429,7 @@ const anim={duration:1100,easing:"easeOutQuart"};
 const drawn={};
 function renderDetail(i){const name=centros[i][0];const rows=CENTRO_DETAIL[name];const body=document.getElementById("detailBody");const title=document.getElementById("detailTitle");if(!body||!rows)return;title.textContent="Estado de resultados · "+name;let h="";rows.forEach(r=>{const[lab,plan,real,cumpli,cls]=r;const cumTxt=cumpli===null?"—":cumpli+"%";const isPct=lab.indexOf("%")===0||lab.indexOf("EBITDA / Ingresos")>-1;const pv=isPct?(plan.toFixed(1).replace(".",",")+"%"):("$"+esNum(plan));const rv=isPct?(real.toFixed(1).replace(".",",")+"%"):("$"+esNum(real));if(cls==="navy"){h+='<tr style="background:var(--navy)"><td style="color:#fff;font-weight:800">'+lab+'</td><td style="color:#fff;font-weight:800">'+pv+'</td><td style="color:#fff;font-weight:800">'+rv+'</td><td style="color:#fff;font-weight:800">'+cumTxt+'</td></tr>';}else{h+='<tr class="'+cls+'"><td>'+lab+'</td><td>'+pv+'</td><td>'+rv+'</td><td>'+cumTxt+'</td></tr>';}});body.innerHTML=h;}
 function selectCentro(i){document.querySelectorAll(".cc").forEach(el=>el.classList.remove("active"));const el=document.getElementById("cc-"+i);if(el)el.classList.add("active");renderDetail(i);}
-const drawers={home:()=>{drawGauge();buildCU();buildHomeGauges();},consol:()=>{buildConsolBullet();chDonut();buildConsolGroups();},centros:()=>{buildCards();buildCentrosRank();selectCentro(0);}};
+const drawers={home:()=>{buildCU();buildHomeGauges();},consol:()=>{buildConsolBullet();chDonut();buildConsolGroups();},centros:()=>{buildCards();buildCentrosRank();selectCentro(0);}};
 function go(id){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===id));document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.go===id));if(!drawn[id]){drawers[id]&&drawers[id]();drawn[id]=true;}setTimeout(observeAll,30);window.scrollTo({top:0,behavior:"smooth"});}
 document.getElementById("tabrow").addEventListener("click",e=>{const b=e.target.closest(".tab");if(b)go(b.dataset.go);});
 (function(){const cv=document.getElementById("stars"),ctx=cv.getContext("2d");let w,h,pts;function rs(){w=cv.width=innerWidth;h=cv.height=innerHeight;pts=Array.from({length:Math.min(70,Math.floor(w/22))},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.6+.3,vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.18,a:Math.random()*.5+.2}));}rs();addEventListener("resize",rs);(function loop(){ctx.clearRect(0,0,w,h);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.28);ctx.fillStyle="rgba(70,90,150,"+p.a+")";ctx.fill();}requestAnimationFrame(loop);})();})();
